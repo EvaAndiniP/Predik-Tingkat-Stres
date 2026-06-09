@@ -41,7 +41,7 @@ model = loaded_models[selected_model_name]
 st.sidebar.header('Input Fitur Siswa')
 
 # Feature names (assuming they are always the same and in the same order)
-feature_names = ['noise_level', 'living_conditions', 'safety', 'basic_needs', 'social_support', 'peer_pressure', 'bullying']
+feature_names = ['academic_performance', 'study_load', 'teacher_student_relationship', 'future_career_concerns', 'extracurricular_activities', 'noise_level', 'living_conditions', 'safety', 'basic_needs', 'social_support', 'peer_pressure', 'bullying']
 
 # Create input widgets for each feature in the sidebar
 def user_input_features():
