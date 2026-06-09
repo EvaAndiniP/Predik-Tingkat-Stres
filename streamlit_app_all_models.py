@@ -8,30 +8,15 @@ import os
 # Get the directory of the current script
 script_dir = os.path.dirname(__file__)
 
-# Load the scaler
-scaler_filename = os.path.join(script_dir, 'deployment_models', 'scaler.pkl')
-try:
-    scaler = joblib.load(scaler_filename)
-except FileNotFoundError:
-    st.error(f"Scaler file not found at {scaler_filename}. Make sure 'deployment_models' folder and 'scaler.pkl' are in the same directory as this script.")
-    st.stop()
-
-
 # Load all models
 loaded_models = {}
 model_paths_map = {
         'Random Forest (Baseline)': os.path.join(script_dir, 'deployment_models', 'Random_Forest_Baseline.pkl'),
-        'SVM (Baseline)': os.path.join(script_dir, 'deployment_models', 'SVM_Baseline.pkl'),
         'XGBoost (Baseline)': os.path.join(script_dir, 'deployment_models', 'XGBoost_Baseline.pkl'),
-        'Naive Bayes (Baseline)': os.path.join(script_dir, 'deployment_models', 'Naive_Bayes_Baseline.pkl'),
         'Random Forest (SMOTE)': os.path.join(script_dir, 'deployment_models', 'Random_Forest_SMOTE.pkl'),
-        'SVM (SMOTE)': os.path.join(script_dir, 'deployment_models', 'SVM_SMOTE.pkl'),
         'XGBoost (SMOTE)': os.path.join(script_dir, 'deployment_models', 'XGBoost_SMOTE.pkl'),
-        'Naive Bayes (SMOTE)': os.path.join(script_dir, 'deployment_models', 'Naive_Bayes_SMOTE.pkl'),
         'Random Forest (Tuned)': os.path.join(script_dir, 'deployment_models', 'Random_Forest_Tuned.pkl'),
-        'SVM (Tuned)': os.path.join(script_dir, 'deployment_models', 'SVM_Tuned.pkl'),
-        'XGBoost (Tuned)': os.path.join(script_dir, 'deployment_models', 'XGBoost_Tuned.pkl'),
-        'Naive Bayes (Tuned)': os.path.join(script_dir, 'deployment_models', 'Naive_Bayes_Tuned.pkl')
+        'XGBoost (Tuned)': os.path.join(script_dir, 'deployment_models', 'XGBoost_Tuned.pkl')
 }
 
 for original_name, model_path in model_paths_map.items():
@@ -48,7 +33,7 @@ st.write('Aplikasi ini memprediksi tingkat stres siswa (Rendah, Sedang, Tinggi) 
 # Model selection dropdown
 selected_model_name = st.sidebar.selectbox(
     'Pilih Model untuk Prediksi:',
-    ['Random Forest (Baseline)', 'SVM (Baseline)', 'XGBoost (Baseline)', 'Naive Bayes (Baseline)', 'Random Forest (SMOTE)', 'SVM (SMOTE)', 'XGBoost (SMOTE)', 'Naive Bayes (SMOTE)', 'Random Forest (Tuned)', 'SVM (Tuned)', 'XGBoost (Tuned)', 'Naive Bayes (Tuned)']
+    ['Random Forest (Baseline)', 'XGBoost (Baseline)', 'Random Forest (SMOTE)', 'XGBoost (SMOTE)', 'Random Forest (Tuned)', 'XGBoost (Tuned)']
 )
 
 model = loaded_models[selected_model_name]
@@ -56,7 +41,7 @@ model = loaded_models[selected_model_name]
 st.sidebar.header('Input Fitur Siswa')
 
 # Feature names (assuming they are always the same and in the same order)
-feature_names = ['academic_performance', 'study_load', 'teacher_student_relationship', 'future_career_concerns', 'extracurricular_activities', 'noise_level', 'living_conditions', 'safety', 'basic_needs', 'social_support', 'peer_pressure', 'bullying']
+feature_names = ['noise_level', 'living_conditions', 'safety', 'basic_needs', 'social_support', 'peer_pressure', 'bullying']
 
 # Create input widgets for each feature in the sidebar
 def user_input_features():
@@ -72,12 +57,9 @@ df_input = user_input_features()
 st.subheader('Input Pengguna')
 st.write(df_input)
 
-# Scale the input features
-df_input_scaled = scaler.transform(df_input)
-
 # Make prediction
 if st.button('Prediksi Tingkat Stres'):
-    prediction = model.predict(df_input_scaled)
+    prediction = model.predict(df_input) # Use unscaled df_input
     stress_levels = ['Rendah', 'Sedang', 'Tinggi']
     predicted_stress_level = stress_levels[prediction[0]]
 
@@ -85,7 +67,7 @@ if st.button('Prediksi Tingkat Stres'):
     st.success(f'Tingkat Stres yang Diprediksi: **{predicted_stress_level}**')
 
     if hasattr(model, "predict_proba"):
-        prediction_proba = model.predict_proba(df_input_scaled)
+        prediction_proba = model.predict_proba(df_input) # Use unscaled df_input
         st.subheader('Probabilitas Prediksi')
         proba_df = pd.DataFrame(prediction_proba, columns=stress_levels)
         st.write(proba_df)
