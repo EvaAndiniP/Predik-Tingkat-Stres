@@ -12,10 +12,7 @@ script_dir = os.path.dirname(__file__)
 loaded_models = {}
 model_paths_map = {
         'Random Forest (Baseline)': os.path.join(script_dir, 'deployment_models', 'Random_Forest_Baseline.pkl'),
-        'XGBoost (Baseline)': os.path.join(script_dir, 'deployment_models', 'XGBoost_Baseline.pkl'),
         'Random Forest (SMOTE)': os.path.join(script_dir, 'deployment_models', 'Random_Forest_SMOTE.pkl'),
-        'XGBoost (SMOTE)': os.path.join(script_dir, 'deployment_models', 'XGBoost_SMOTE.pkl'),
-        'Random Forest (Tuned)': os.path.join(script_dir, 'deployment_models', 'Random_Forest_Tuned.pkl'),
         'XGBoost (Tuned)': os.path.join(script_dir, 'deployment_models', 'XGBoost_Tuned.pkl')
 }
 
