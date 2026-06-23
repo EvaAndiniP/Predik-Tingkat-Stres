@@ -30,7 +30,7 @@ st.write('Aplikasi ini memprediksi tingkat stres siswa (Rendah, Sedang, Tinggi) 
 # Model selection dropdown
 selected_model_name = st.sidebar.selectbox(
     'Pilih Model untuk Prediksi:',
-    ['Random Forest (Baseline)', 'XGBoost (Baseline)', 'Random Forest (SMOTE)', 'XGBoost (SMOTE)', 'Random Forest (Tuned)', 'XGBoost (Tuned)']
+    ['Random Forest (Baseline)', 'Random Forest (SMOTE)', 'XGBoost (Tuned)']
 )
 
 model = loaded_models[selected_model_name]
