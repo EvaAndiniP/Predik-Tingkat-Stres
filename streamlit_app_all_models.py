@@ -44,7 +44,7 @@ def user_input_features():
     data = {}
     for feature in feature_names:
         # Assuming features range from 0 to 4 based on dataset description
-        data[feature] = st.sidebar.slider(feature.replace('_', ' ').title(), 0, 4, 2)
+        data[feature] = st.sidebar.slider(feature.replace('_', ' ').title(), 1, 4, 2)
     features = pd.DataFrame(data, index=[0])
     return features
 
