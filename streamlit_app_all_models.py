@@ -11,9 +11,8 @@ script_dir = os.path.dirname(__file__)
 # Load all models
 loaded_models = {}
 model_paths_map = {
-        'Random Forest (Baseline)': os.path.join(script_dir, 'deployment_models', 'Random_Forest_Baseline.pkl'),
-        'Random Forest (SMOTE)': os.path.join(script_dir, 'deployment_models', 'Random_Forest_SMOTE.pkl'),
-        'XGBoost (Tuned)': os.path.join(script_dir, 'deployment_models', 'XGBoost_Tuned.pkl')
+        'XGBoost (Tuned)': os.path.join(script_dir, 'deployment_models', 'XGBoost_Tuned.pkl'),
+        
 }
 
 for original_name, model_path in model_paths_map.items():
@@ -30,7 +29,7 @@ st.write('Aplikasi ini memprediksi tingkat stres siswa (Rendah, Sedang, Tinggi) 
 # Model selection dropdown
 selected_model_name = st.sidebar.selectbox(
     'Pilih Model untuk Prediksi:',
-    ['Random Forest (Baseline)', 'Random Forest (SMOTE)', 'XGBoost (Tuned)']
+    ['Random Forest (Baseline)', 'XGBoost (Baseline)', 'LightGBM (Baseline)', 'Random Forest (Tuned)', 'XGBoost (Tuned)', 'LightGBM (Tuned)']
 )
 
 model = loaded_models[selected_model_name]
