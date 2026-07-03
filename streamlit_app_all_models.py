@@ -1,4 +1,3 @@
-
 import streamlit as st
 import joblib
 import pandas as pd
@@ -60,7 +59,16 @@ if st.button('Prediksi Tingkat Stres'):
     predicted_stress_level = stress_levels[prediction[0]]
 
     st.subheader('Hasil Prediksi')
-    st.success(f'Tingkat Stres yang Diprediksi: **{predicted_stress_level}**')
+    
+    # MODIFIKASI: Pengkondisian warna output berdasarkan hasil prediksi
+    message_text = f'Tingkat Stres yang Diprediksi: **{predicted_stress_level}**'
+    
+    if predicted_stress_level == 'Rendah':
+        st.success(message_text)  # Berwarna Hijau
+    elif predicted_stress_level == 'Sedang':
+        st.warning(message_text)  # Berwarna Kuning
+    elif predicted_stress_level == 'Tinggi':
+        st.error(message_text)    # Berwarna Merah
 
     if hasattr(model, "predict_proba"):
         prediction_proba = model.predict_proba(df_input) # Use unscaled df_input
